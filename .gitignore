@@ -47,3 +47,10 @@ nosetests.xml
 .#*
 *.swp
 *.swo
+
+
+# pycharm files
+*.idea
+
+# pickle data
+*.pkl
