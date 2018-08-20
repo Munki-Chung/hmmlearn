@@ -9,12 +9,14 @@ The plot show the sequence of observations generated with the transitions
 between them. We can see that, as specified by our transition matrix,
 there are no transition between component 1 and 3.
 """
-print(__doc__)
-
 import numpy as np
 import matplotlib.pyplot as plt
 
 from hmmlearn import hmm
+
+
+print(__doc__)
+
 
 ##############################################################
 # Prepare parameters for a 4-components HMM
@@ -27,7 +29,7 @@ transmat = np.array([[0.7, 0.2, 0.0, 0.1],
                      [0.0, 0.3, 0.5, 0.2],
                      [0.2, 0.0, 0.2, 0.6]])
 # The means of each component
-means = np.array([[0.0,  0.0],
+means = np.array([[0.0, 0.0],
                   [0.0, 11.0],
                   [9.0, 10.0],
                   [11.0, -1.0]])

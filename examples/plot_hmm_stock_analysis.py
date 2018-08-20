@@ -3,39 +3,48 @@ Gaussian HMM of stock data
 --------------------------
 
 This script shows how to use Gaussian HMM on stock price data from
-Yahoo! finance. For more information on how to visualize stock prices
-with matplotlib, please refer to ``date_demo1.py`` of matplotlib.
+voptdb.
 """
 
 from __future__ import print_function
 
-import datetime
-
 import numpy as np
 from matplotlib import cm, pyplot as plt
 from matplotlib.dates import YearLocator, MonthLocator
-try:
-    from matplotlib.finance import quotes_historical_yahoo_ochl
-except ImportError:
-    # For Matplotlib prior to 1.5.
-    from matplotlib.finance import (
-        quotes_historical_yahoo as quotes_historical_yahoo_ochl
-    )
 
 from hmmlearn.hmm import GaussianHMM
 
+import pickle
 
 print(__doc__)
 
+
+def load_by_pickle(file_name):
+    """load dat is encoded by "bytes" type
+
+    :param file_name: file name for loading
+    :return: load data
+    """
+    if file_name[-4:] == ".pkl":
+        print(file_name)
+        pass
+    else:
+        file_name = file_name + ".pkl"
+        print(file_name)
+    file_object = open(file_name, 'rb')
+    load_data = pickle.load(file_object, encoding="bytes")
+    return load_data
+
+
+dic_price = load_by_pickle('./data/price_data.pkl')
+
 ###############################################################################
 # Get quotes from Yahoo! finance
-quotes = quotes_historical_yahoo_ochl(
-    "INTC", datetime.date(1995, 1, 1), datetime.date(2012, 1, 6))
 
 # Unpack quotes
-dates = np.array([q[0] for q in quotes], dtype=int)
-close_v = np.array([q[2] for q in quotes])
-volume = np.array([q[5] for q in quotes])[1:]
+dates = np.array(dic_price["close"]["005930"].index)
+close_v = np.array(dic_price["close"]["005930"])
+volume = np.array(dic_price["volume"]["005930"])[1:]
 
 # Take diff of close value. Note that this makes
 # ``len(diff) = len(close_t) - 1``, therefore, other quantities also
